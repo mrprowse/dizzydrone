@@ -1,34 +1,39 @@
 package ca.iopener.dizzydrone.screens;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL10;
-import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
-import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.CircleShape;
-import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 
 public class GameLevel extends InputAdapter implements Screen {
 
-	World world;
+	Stage stage;
+	
+/*	World world;
 	Body player;
 	OrthographicCamera cam;
 	Box2DDebugRenderer renderer;
 	BitmapFont font;
 	Vector3 point;
-	SpriteBatch batch;
+	SpriteBatch batch;*/
+	private Game game;
+	
+	public GameLevel(Game game) {
+		this.game = game;
+	}
 
 	public void create() {
-		Gdx.app.log("INFO", "create");
+		stage = new Stage();
+		Gdx.input.setInputProcessor(stage);
+/*		Gdx.app.log("INFO", "create");
 		world = new World(new Vector2(0, 0), true);
 		renderer = new Box2DDebugRenderer();
 		cam = new OrthographicCamera(28, 20);
@@ -36,16 +41,16 @@ public class GameLevel extends InputAdapter implements Screen {
 		font = new BitmapFont();
 		batch = new SpriteBatch();
 		createWorld();
-		Gdx.input.setInputProcessor(this);
+		Gdx.input.setInputProcessor(this);*/
 	}
 
-	private void createWorld() {
+	/*private void createWorld() {
 		// TODO Auto-generated method stub
 		Gdx.app.log("INFO", "createWorld");
 		player = createPlayer();
-	}
+	}*/
 
-	private Body createPlayer() {
+	/*private Body createPlayer() {
 		Gdx.app.log("INFO", "createPlayer");
 		BodyDef def = new BodyDef();
 		def.type = BodyType.DynamicBody;
@@ -54,46 +59,45 @@ public class GameLevel extends InputAdapter implements Screen {
 
 		CircleShape circle = new CircleShape();
 		circle.setRadius(0.45f);
-		circle.setPosition(new Vector2(0, -1.4f));
+		circle.setPosition(new Vector2(5f, 5f));
 		box.createFixture(circle, 0);
 		circle.dispose();
 
 		box.setBullet(true);
 
 		return box;
-	}
+	}*/
 
 	@Override
 	public void render(float delta) {
-		//Gdx.app.log("INFO", "render");
-		if (world == null) {
+		Gdx.app.log("INFO", "render");
+		/*if (world == null) {
 			create();
-		}
+		}*/
 		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
-		cam.position.set(0, 0, 0);
-		cam.update();
+		//cam.position.set(0, 0, 0);
+		//cam.update();
 		//cam.apply(Gdx.gl10);
-		renderer.render(world, new Matrix4());
+		//renderer.render(world, new Matrix4());
 
-		Vector2 vel = player.getLinearVelocity();
-		Vector2 pos = player.getPosition();
+		//Vector2 vel = player.getLinearVelocity();
+		//Vector2 pos = player.getPosition();
 
 		// le step...
-		world.step(Gdx.graphics.getDeltaTime(), 4, 4);
+		/*world.step(Gdx.graphics.getDeltaTime(), 4, 4);
 		player.setAwake(true);
 
-		Vector3 touch = new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0);
-		if (Gdx.input.justTouched()) {
-			cam.unproject(touch);
-			Gdx.app.log("INFO", touch.x + "/" + touch.y);
-			player.setLinearVelocity((touch.x - pos.x) / 100f, (touch.y - pos.y) / 100f);//(float) Math.random() - 0.5f, (float) Math.random() - 0.5f);
-		}
-
-		cam.unproject(point.set(pos.x, pos.y, 0));
+		cam.project(point.set(pos.x, pos.y, 0));
 		batch.begin();
 		font.drawMultiLine(batch, pos.x + "/" + pos.y, 100f, 100f);
+		font.drawMultiLine(batch, player.getPosition().x + ", " + player.getPosition().y, point.x, point.y);
 		batch.end();
 		
+		if (player.getPosition().x > 1 || player.getPosition().x < -1) {
+			player.setTransform(0, 0, 0);
+			player.setLinearVelocity(0, 0);
+		}*/
+
 	}
 
 	@Override
@@ -129,7 +133,7 @@ public class GameLevel extends InputAdapter implements Screen {
 	@Override
 	public void dispose() {
 		// TODO Auto-generated method stub
-		world.dispose();
+		//world.dispose();
 	}
 
 }

@@ -3,12 +3,17 @@ package ca.iopener.dizzydrone;
 import ca.iopener.dizzydrone.screens.GameLevel;
 
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.utils.Array;
 
 public class DizzyDroneGame extends Game {
 	
+	static final Array<Screen> screens = new Array<Screen>();
+	
 	@Override
-	public void create() {	
-		setScreen(new GameLevel());
+	public void create() {
+		
+		setScreen(new GameLevel(this));
 		/*
 		float w = Gdx.graphics.getWidth();
 		float h = Gdx.graphics.getHeight();

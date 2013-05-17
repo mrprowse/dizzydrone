@@ -4,8 +4,8 @@
 	<classpathentry kind="src" path="assets"/>
 	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/dizzydrone"/>
 	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry exported="true" kind="lib" path="libs/gdx-backend-lwjgl.jar" sourcepath="libs/gdx-backend-lwjgl-sources.jar"/>
-	<classpathentry exported="true" kind="lib" path="libs/gdx-backend-lwjgl-natives.jar"/>
-	<classpathentry exported="true" kind="lib" path="libs/gdx-natives.jar"/>
+	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/gdx"/>
+	<classpathentry exported="true" kind="lib" path="/Volumes/OLD Macintosh HD/Users/jprowse/git/libgdx/extensions/gdx-controllers/gdx-controllers-desktop/libs/gdx-controllers-desktop-natives.jar"/>
+	<classpathentry kind="src" path="/gdx-backend-lwjgl"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

@@ -1,16 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="src" combineaccessrules="false" path="/dizzydrone"/>
+	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/dizzydrone"/>
+	<classpathentry exported="true" kind="con" path="com.google.gwt.eclipse.core.GWT_CONTAINER"/>
+	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry exported="true" kind="lib" path="/dizzydrone/libs/gdx.jar" sourcepath="/dizzydrone/libs/gdx-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="/dizzydrone/libs/gdx-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="/dizzydrone/libs/bodyeditor-loader.jar" sourcepath="/dizzydrone/libs/bodyeditor-loader-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="/dizzydrone/libs/bodyeditor-loader-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="/dizzydrone/libs/tween-engine-api.jar" sourcepath="/dizzydrone/libs/tween-engine-api-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="/dizzydrone/libs/tween-engine-api-sources.jar"/>
+	<classpathentry kind="lib" path="/Libgdx-Scene2d-Game-html/war/WEB-INF/lib/gdx-backend-gwt.jar" sourcepath="/Libgdx-Scene2d-Game-html/war/WEB-INF/lib/gdx-backend-gwt-sources.jar"/>
 	<classpathentry kind="output" path="war/WEB-INF/classes"/>
-	<classpathentry kind="con" path="com.google.gwt.eclipse.core.GWT_CONTAINER"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="/dizzydrone/libs/gdx.jar" sourcepath="/dizzydrone/libs/gdx-sources.jar"/>
-	<classpathentry kind="lib" path="/dizzydrone/libs/gdx-sources.jar"/>
-	<classpathentry kind="lib" path="war/WEB-INF/lib/gdx-backend-gwt.jar" sourcepath="war/WEB-INF/lib/gdx-backend-gwt-sources.jar"/>
-	<classpathentry kind="lib" path="war/WEB-INF/lib/gdx-backend-gwt-sources.jar"/>
-	<classpathentry kind="lib" path="/dizzydrone/libs/bodyeditor-loader.jar" sourcepath="/dizzydrone/libs/bodyeditor-loader-sources.jar"/>
-	<classpathentry kind="lib" path="/dizzydrone/libs/bodyeditor-loader-sources.jar"/>
-	<classpathentry kind="lib" path="/dizzydrone/libs/tween-engine-api.jar" sourcepath="/dizzydrone/libs/tween-engine-api-sources.jar"/>
-	<classpathentry kind="lib" path="/dizzydrone/libs/tween-engine-api-sources.jar"/>
 </classpath>
