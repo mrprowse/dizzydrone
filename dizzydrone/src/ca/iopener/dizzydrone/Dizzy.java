@@ -1,11 +1,9 @@
 package ca.iopener.dizzydrone;
 
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
-import com.badlogic.gdx.physics.box2d.Shape;
 
 public class Dizzy {
 
@@ -22,7 +20,7 @@ public class Dizzy {
 		bodyDef.gravityScale = 0;
 		bodyDef.angle = 0;
 		bodyDef.angularVelocity = 1;
-		bodyDef.position.set(200, 200);
+		bodyDef.position.set(0, 0);
 		fixture = new FixtureDef();
 		fixture.friction = 0;
 		fixture.restitution = 1;
