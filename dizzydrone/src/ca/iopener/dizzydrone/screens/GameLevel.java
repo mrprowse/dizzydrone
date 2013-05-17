@@ -65,14 +65,14 @@ public class GameLevel extends InputAdapter implements Screen {
 
 	@Override
 	public void render(float delta) {
-		Gdx.app.log("INFO", "render");
+		//Gdx.app.log("INFO", "render");
 		if (world == null) {
 			create();
 		}
 		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
-		cam.position.set(player.getPosition().x, player.getPosition().y, 0);
+		cam.position.set(0, 0, 0);
 		cam.update();
-		cam.apply(Gdx.gl10);
+		//cam.apply(Gdx.gl10);
 		renderer.render(world, new Matrix4());
 
 		Vector2 vel = player.getLinearVelocity();
@@ -82,15 +82,18 @@ public class GameLevel extends InputAdapter implements Screen {
 		world.step(Gdx.graphics.getDeltaTime(), 4, 4);
 		player.setAwake(true);
 
-		cam.project(point.set(pos.x, pos.y, 0));
-		batch.begin();
-		font.drawMultiLine(batch, "Hello World", point.x + 20, point.y);
-		batch.end();
-		
+		Vector3 touch = new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0);
 		if (Gdx.input.justTouched()) {
-			player.setLinearVelocity((float) Math.random() - 0.5f, (float) Math.random() - 0.5f);
+			cam.unproject(touch);
+			Gdx.app.log("INFO", touch.x + "/" + touch.y);
+			player.setLinearVelocity((touch.x - pos.x) / 100f, (touch.y - pos.y) / 100f);//(float) Math.random() - 0.5f, (float) Math.random() - 0.5f);
 		}
 
+		cam.unproject(point.set(pos.x, pos.y, 0));
+		batch.begin();
+		font.drawMultiLine(batch, pos.x + "/" + pos.y, 100f, 100f);
+		batch.end();
+		
 	}
 
 	@Override
