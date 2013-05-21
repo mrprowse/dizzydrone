@@ -14,6 +14,7 @@ public class Dizzy extends Image {
 	public int status;
 	private int rotationSpeed = 5;
 	private static final float DIZZYSIZE = 32f;
+	public float radius = DIZZYSIZE / 2;
 	public Vector2 vector;
 
 	public Dizzy() {
@@ -21,7 +22,6 @@ public class Dizzy extends Image {
 		this.setName("Dizzy");
 		this.status = PAUSED | SPINNING;
 		this.vector = new Vector2(1, 0);
-		//this.setPosition(100, 100);
 		this.setOrigin(this.getWidth() / 2, this.getHeight() / 2);
 		this.setRotation(0);
 		this.setDrawable(new TextureRegionDrawable(Assets
@@ -29,7 +29,8 @@ public class Dizzy extends Image {
 	}
 
 	public void move() {
-		this.setPosition(this.getX() + this.vector.x, this.getY() + this.vector.y);
+		this.setPosition(this.getX() + this.vector.x, this.getY()
+				+ this.vector.y);
 	}
 
 	public void spin() {
@@ -38,11 +39,22 @@ public class Dizzy extends Image {
 
 	public boolean intersectsWith(Image actor) {
 		if (actor.isVisible()) {
-			Rectangle r = new Rectangle(this.getX(), this.getY(),
-					this.getWidth(), this.getHeight());
-			Rectangle s = new Rectangle(actor.getX(), actor.getY(),
-					actor.getWidth(), actor.getHeight());
-			return r.overlaps(s);
+			// Check for circle collisions
+			if (actor.getName().equalsIgnoreCase("POWERUP")) {
+				float distance = (float) Math.sqrt(Math.pow(actor.getX() - this.getX(), 2) + Math.pow(actor.getY() - this.getY(), 2));
+				if (distance < (this.radius + ((PowerPack) actor).radius)) {
+					return true;
+				} else {
+					return false;
+				}
+			// Check for rectangle collisions
+			} else {
+				Rectangle r = new Rectangle(this.getX(), this.getY(),
+						this.getWidth(), this.getHeight());
+				Rectangle s = new Rectangle(actor.getX(), actor.getY(),
+						actor.getWidth(), actor.getHeight());
+				return r.overlaps(s);
+			}
 		} else {
 			return false;
 		}

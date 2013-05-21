@@ -7,6 +7,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
 public class PowerPack extends Image {
+	
+	public float radius = 12;
 
 	public PowerPack() {
 		this.setName("PowerUp");
