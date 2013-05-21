@@ -1,115 +1,175 @@
 package ca.iopener.dizzydrone.screens;
 
-import com.badlogic.gdx.Game;
+import ca.iopener.dizzydrone.DizzyDroneGame;
+import ca.iopener.dizzydrone.actors.Dizzy;
+import ca.iopener.dizzydrone.actors.PowerPack;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.FPSLogger;
 import com.badlogic.gdx.graphics.GL10;
-import com.badlogic.gdx.math.Matrix4;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
-import com.badlogic.gdx.physics.box2d.CircleShape;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.utils.Array;
 
 public class GameLevel extends InputAdapter implements Screen {
 
-	Stage stage;
-	
-/*	World world;
-	Body player;
-	OrthographicCamera cam;
-	Box2DDebugRenderer renderer;
-	BitmapFont font;
-	Vector3 point;
-	SpriteBatch batch;*/
-	private Game game;
-	
-	public GameLevel(Game game) {
+	Stage stage = new Stage();
+	DizzyDroneGame game;
+	Array<Image> actors = new Array<Image>();
+	SpriteBatch batch = new SpriteBatch();
+	int levelScore;
+	String levelName;
+	boolean isTouched;
+	BitmapFont font = new BitmapFont();
+	Dizzy dizzy;
+	FPSLogger fps = new FPSLogger();
+
+	public GameLevel(DizzyDroneGame game) {
 		this.game = game;
+		this.dizzy = this.game.player;
+		create();
+	}
+
+	/**
+	 * @TODO: build a tool to import a level from XML or JSON
+	 * @param id
+	 */
+	public void importLevel(int id) {
+
 	}
 
 	public void create() {
-		stage = new Stage();
+		Gdx.app.log("INFO", "GameLevel.create");
 		Gdx.input.setInputProcessor(stage);
-/*		Gdx.app.log("INFO", "create");
-		world = new World(new Vector2(0, 0), true);
-		renderer = new Box2DDebugRenderer();
-		cam = new OrthographicCamera(28, 20);
-		point = new Vector3();
-		font = new BitmapFont();
-		batch = new SpriteBatch();
-		createWorld();
-		Gdx.input.setInputProcessor(this);*/
+		actors.add(this.game.player);
+		for (int i = 0; i < 5; i++) {
+			actors.add(new PowerPack());
+		}
+		for (Image actor : actors) {
+			stage.addActor(actor);
+		}
 	}
-
-	/*private void createWorld() {
-		// TODO Auto-generated method stub
-		Gdx.app.log("INFO", "createWorld");
-		player = createPlayer();
-	}*/
-
-	/*private Body createPlayer() {
-		Gdx.app.log("INFO", "createPlayer");
-		BodyDef def = new BodyDef();
-		def.type = BodyType.DynamicBody;
-		Body box = world.createBody(def);
-		Gdx.app.log("INFO", box.toString());
-
-		CircleShape circle = new CircleShape();
-		circle.setRadius(0.45f);
-		circle.setPosition(new Vector2(5f, 5f));
-		box.createFixture(circle, 0);
-		circle.dispose();
-
-		box.setBullet(true);
-
-		return box;
-	}*/
 
 	@Override
 	public void render(float delta) {
-		Gdx.app.log("INFO", "render");
-		/*if (world == null) {
-			create();
-		}*/
+
 		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
-		//cam.position.set(0, 0, 0);
-		//cam.update();
-		//cam.apply(Gdx.gl10);
-		//renderer.render(world, new Matrix4());
 
-		//Vector2 vel = player.getLinearVelocity();
-		//Vector2 pos = player.getPosition();
+		if ((dizzy.status & Dizzy.PAUSED) > 0) {
+			if (Gdx.input.justTouched()) {
+				// Move Dizzy if paused an user clicks
+				dizzy.status = dizzy.status & Dizzy.MOVING & ~Dizzy.PAUSED;
+			}
+		} else {
+			if (Gdx.input.isTouched()) {
+				Gdx.app.log("INFO", "touched");
+				isTouched = true;
+				// Don't move Dizzy while player is touching screen
+				dizzy.status = dizzy.status & ~Dizzy.MOVING;
+			} else if (isTouched) {
+				// This is the case where the touch has just ended
+				Gdx.app.log("INFO", "touch over");
+				isTouched = false;
+				Gdx.app.log("INFO", "Before: " + Float.toString(dizzy.vector.angle()));
+				dizzy.vector.setAngle(dizzy.getRotation());
+				Gdx.app.log("INFO", "After: " + Float.toString(dizzy.vector.angle()));
+				dizzy.status = dizzy.status | Dizzy.MOVING;
+			} else {
+				// Default is Dizzy spins and moves
+				dizzy.status = Dizzy.MOVING | Dizzy.SPINNING;
+			}
+		}
+		// Move Dizzy
+		if ((dizzy.status & Dizzy.MOVING) > 0) {
+			dizzy.move();
+		}
+		if ((dizzy.status & Dizzy.SPINNING) > 0) {
+			dizzy.spin();
+		}
+		bounceDizzy();
 
-		// le step...
-		/*world.step(Gdx.graphics.getDeltaTime(), 4, 4);
-		player.setAwake(true);
+		fps.log();
+		//Gdx.app.log("INFO", dizzy.toString());
 
-		cam.project(point.set(pos.x, pos.y, 0));
+		stage.act(delta);
+		stage.draw();
+		batch.enableBlending();
 		batch.begin();
-		font.drawMultiLine(batch, pos.x + "/" + pos.y, 100f, 100f);
-		font.drawMultiLine(batch, player.getPosition().x + ", " + player.getPosition().y, point.x, point.y);
+		// font.draw(batch, Float.toString(dizzy.getRotation()) + " @ "
+		// + dizzy.position.len(), dizzy.getX(), dizzy.getY() - 20);
+		font.draw(batch, dizzy.vector + " @ " + dizzy.vector.angle() +  "/" + dizzy.getRotation(),
+				dizzy.getX(), dizzy.getY() + (2 * dizzy.getHeight()));
 		batch.end();
-		
-		if (player.getPosition().x > 1 || player.getPosition().x < -1) {
-			player.setTransform(0, 0, 0);
-			player.setLinearVelocity(0, 0);
-		}*/
+	}
 
+	public void bounceDizzy() {
+		// Check collisions
+		for (int i = 1; i < actors.size; i++) {
+			Image a = actors.get(i);
+			if (dizzy.intersectsWith(a)) {
+				Gdx.app.log("INFO",
+						"intersect at " + a.getName() + " @ " + a.getX() + "/"
+								+ a.getY());
+				dizzy.vector.set(-dizzy.vector.x, -dizzy.vector.y);
+				a.setVisible(false);
+				a.remove();
+			}
+
+		}
+		// Check wall contact
+		if (dizzy.getX() < 0
+				|| (dizzy.getX() + dizzy.getWidth()) > stage.getWidth()) {
+			dizzy.vector.x *= -1;
+			// dizzy.vector.scl(1.1f).limit(5);
+			if (dizzy.getX() < 0) {
+				dizzy.setX(0);
+			} else {
+				dizzy.setX(stage.getWidth() - dizzy.getWidth());
+			}
+		}
+		if (dizzy.getY() < 0
+				|| (dizzy.getY() + dizzy.getHeight()) > stage.getHeight()) {
+			dizzy.vector.y *= -1;
+			// dizzy.vector.scl(1.1f).limit(5);
+			if (dizzy.getY() < 0) {
+				dizzy.setY(0);
+			} else {
+				dizzy.setY(stage.getHeight() - dizzy.getHeight());
+			}
+		}
+		int result = dizzy.status & Dizzy.MOVING;
+		if (result > 0) {
+			dizzy.move();
+		}
 	}
 
 	@Override
 	public void resize(int width, int height) {
-		// TODO Auto-generated method stub
-
+		Gdx.app.log("INFO", "GameLevel.resize");
+		stage.setViewport(width, height, true);
 	}
 
 	@Override
 	public void show() {
+		Gdx.app.log("INFO", "GameLevel.show");
 		// TODO Auto-generated method stub
-
+		// Build game board
+		// Create collectibles
+		// Place player in centre of screen
+		for (Image actor : actors) {
+			if (actor.getName().equalsIgnoreCase("dizzy")) {
+				actor.setPosition(stage.getWidth() / 2 - dizzy.getWidth() / 2,
+						stage.getHeight() / 2 - dizzy.getHeight() / 2);
+			} else {
+				actor.setPosition((float) Math.random() * stage.getWidth(),
+						(float) Math.random() * stage.getHeight());
+			}
+		}
 	}
 
 	@Override
@@ -133,7 +193,7 @@ public class GameLevel extends InputAdapter implements Screen {
 	@Override
 	public void dispose() {
 		// TODO Auto-generated method stub
-		//world.dispose();
+		stage.dispose();
 	}
 
 }
