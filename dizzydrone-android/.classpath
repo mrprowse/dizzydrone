@@ -1,15 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="src" path="gen"/>
-	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/dizzydrone"/>
 	<classpathentry kind="con" path="com.android.ide.eclipse.adt.ANDROID_FRAMEWORK"/>
-	<classpathentry kind="con" path="com.android.ide.eclipse.adt.LIBRARIES"/>
-	<classpathentry exported="true" kind="lib" path="/dizzydrone/libs/gdx.jar" sourcepath="/dizzydrone/libs/gdx-sources.jar"/>
-	<classpathentry exported="true" kind="lib" path="libs/gdx-backend-android.jar" sourcepath="libs/gdx-backend-android-sources.jar"/>
-	<classpathentry exported="true" kind="lib" path="/dizzydrone/libs/bodyeditor-loader.jar" sourcepath="/dizzydrone/libs/bodyeditor-loader-sources.jar"/>
-	<classpathentry exported="true" kind="lib" path="/dizzydrone/libs/tween-engine-api.jar" sourcepath="/dizzydrone/libs/tween-engine-api-sources.jar"/>
-	<classpathentry kind="lib" path="/gdx-backend-android/libs/android-4.2.jar"/>
-	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.DEPENDENCIES"/>
-	<classpathentry kind="output" path="bin/classes"/>
+	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.LIBRARIES"/>
+	<classpathentry kind="con" path="com.android.ide.eclipse.adt.DEPENDENCIES"/>
+	<classpathentry kind="output" path="bin"/>
 </classpath>
